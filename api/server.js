@@ -9,9 +9,13 @@ server.use(helmet());
 server.use(express.json());
 
 server.get('/', (req, res) => {
+  
   Shoutouts.find()
+
+  const motd = process.env.MOTD || "No message available today"
+
   .then(shoutouts => {
-    res.status(200).json(shoutouts);
+    res.status(200).json({messageOfTheDay: motd,shoutouts});
   })
   .catch (error => {
     console.error('\nERROR', error);
